@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script defer src="./assets/js/bundle.js" ></script>
+  <title>Form validator tester</title>
+
+  <style>
+    form {
+      margin: 0 auto;
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    form label {
+      width: 96%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    form label input {
+      width: 100%;
+      padding: 5px;
+      font-size: 18px;
+    }
+    form input[type="submit"] {
+      width: 100%;
+      padding: 5px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <form>
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name">
+    <label for="surname">SurName:</label>
+    <input type="text" name="surname" id="surname">
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email">
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password">
+    <input type="radio" id="male" name="gender" value="male">
+    <label for="male">Male</label><br>
+    <input type="radio" id="female" name="gender" value="female">
+    <label for="female">Female</label><br>
+    <input type="radio" id="other" name="gender" value="other">
+    <label for="other">Other</label>
+    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+    <label for="vehicle1"> I have a bike</label><br>
+    <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+    <label for="vehicle2"> I have a car</label><br>
+    <input type="submit" value="send">
+  </form>
+</body>
+</html>
