@@ -31,25 +31,13 @@ class FormValidator {
   init(): void {
     this.form.addEventListener("submit", (e) => {
       e.preventDefault();
+
       this.removeMessage();
-      console.log(
-        this.verifyEmptyInputs("text"),
-        this.verifyEmptyInputs("email"),
-        this.verifyEmptyInputs("password"),
-        this.verifyRadioInputs(),
-        this.verifyCheckBoxInputs(),
-        this.verifyEmailInputs(),
-      );
-      if (
-        this.verifyEmptyInputs("text") &&
-        this.verifyEmptyInputs("email") &&
-        this.verifyEmptyInputs("password") &&
-        this.verifyRadioInputs() &&
-        this.verifyCheckBoxInputs() &&
-        this.verifyEmailInputs()
-      ) {
-        alert("Formulario enviado");
+
+      if (this.fieldsAreValid()) {
+        alert("Form submitted");
       }
+
       if (
         this.min !== undefined &&
         this.max !== undefined &&
@@ -60,10 +48,33 @@ class FormValidator {
     });
   }
 
+  fieldsAreValid(): boolean {
+    const emptyInputsText = this.verifyEmptyInputs("text");
+    const emptyInputsEmail = this.verifyEmptyInputs("email");
+    const emptyInputsPassword = this.verifyEmptyInputs("password");
+    const validEmailInput = this.verifyEmailInputs();
+    const validRadioInput = this.verifyRadioInputs();
+    const validCheckBoxInput = this.verifyCheckBoxInputs();
+
+    if (
+      emptyInputsText &&
+      emptyInputsEmail &&
+      emptyInputsPassword &&
+      validEmailInput &&
+      validRadioInput &&
+      validCheckBoxInput
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   // eslint-disable-next-line class-methods-use-this
   verifyEmptyInput(input: HTMLInputElement): boolean {
-    if (!validator.isEmpty(input.value)) return false;
-    return true;
+    if (validator.isEmpty(input.value)) {
+      return true;
+    }
+    return false;
   }
 
   verifyEmailInputs(): boolean {
@@ -73,7 +84,9 @@ class FormValidator {
     );
 
     inputs.forEach((input) => {
-      if (!validator.isEmail(input.value)) {
+      if (validator.isEmail(input.value)) {
+        valid = true;
+      } else {
         this.addMessage("This email is not valid", input);
         valid = false;
       }
@@ -93,10 +106,10 @@ class FormValidator {
 
     while (!radioValid && i < radios.length) {
       if (radios[i].checked) radioValid = true;
-      if (!radioValid) this.addMessage("must check some option", radios[i]);
       i += 1;
     }
 
+    if (!radioValid) alert("must check some option");
     return radioValid;
   }
 
@@ -109,23 +122,22 @@ class FormValidator {
 
     checkboxs.forEach((checkbox) => {
       checked = !!(checkbox.checked || checked === true);
-      if (checked === false) {
-        this.addMessage("must check some option", checkbox);
-      }
     });
+
+    if (checked === false) alert("must check some option");
 
     return checked;
   }
 
   verifyEmptyInputs(type: string): boolean {
-    let empty = false;
+    let empty = true;
     const inputs: NodeListOf<HTMLInputElement> = this.form.querySelectorAll(
       `input[type='${type}']`,
     );
 
     inputs.forEach((input) => {
       if (this.verifyEmptyInput(input)) {
-        empty = true;
+        empty = false;
         if (input.previousElementSibling !== null) {
           this.addMessage(
             `${input.previousElementSibling.innerHTML.replace(
@@ -136,7 +148,7 @@ class FormValidator {
           );
         }
       } else {
-        empty = false;
+        empty = true;
       }
     });
 
@@ -180,5 +192,12 @@ class FormValidator {
 }
 
 const form = document.querySelector("form") as HTMLFormElement;
-const formValidator = new FormValidator(form, 5, 10, "name");
+const formValidator = new FormValidator(
+  form,
+  5,
+  10,
+  "name",
+  "password",
+  "surname",
+);
 formValidator.init();

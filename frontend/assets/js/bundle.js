@@ -36,14 +36,8 @@ var FormValidator = /** @class */ (function () {
         this.form.addEventListener("submit", function (e) {
             e.preventDefault();
             _this.removeMessage();
-            console.log(_this.verifyEmptyInputs("text"), _this.verifyEmptyInputs("email"), _this.verifyEmptyInputs("password"), _this.verifyRadioInputs(), _this.verifyCheckBoxInputs(), _this.verifyEmailInputs());
-            if (_this.verifyEmptyInputs("text") &&
-                _this.verifyEmptyInputs("email") &&
-                _this.verifyEmptyInputs("password") &&
-                _this.verifyRadioInputs() &&
-                _this.verifyCheckBoxInputs() &&
-                _this.verifyEmailInputs()) {
-                alert("Formulario enviado");
+            if (_this.fieldsAreValid()) {
+                alert("Form submitted");
             }
             if (_this.min !== undefined &&
                 _this.max !== undefined &&
@@ -52,18 +46,39 @@ var FormValidator = /** @class */ (function () {
             }
         });
     };
+    FormValidator.prototype.fieldsAreValid = function () {
+        var emptyInputsText = this.verifyEmptyInputs("text");
+        var emptyInputsEmail = this.verifyEmptyInputs("email");
+        var emptyInputsPassword = this.verifyEmptyInputs("password");
+        var validEmailInput = this.verifyEmailInputs();
+        var validRadioInput = this.verifyRadioInputs();
+        var validCheckBoxInput = this.verifyCheckBoxInputs();
+        if (emptyInputsText &&
+            emptyInputsEmail &&
+            emptyInputsPassword &&
+            validEmailInput &&
+            validRadioInput &&
+            validCheckBoxInput) {
+            return true;
+        }
+        return false;
+    };
     // eslint-disable-next-line class-methods-use-this
     FormValidator.prototype.verifyEmptyInput = function (input) {
-        if (!validator_1.default.isEmpty(input.value))
-            return false;
-        return true;
+        if (validator_1.default.isEmpty(input.value)) {
+            return true;
+        }
+        return false;
     };
     FormValidator.prototype.verifyEmailInputs = function () {
         var _this = this;
         var valid = true;
         var inputs = this.form.querySelectorAll("input[type='email']");
         inputs.forEach(function (input) {
-            if (!validator_1.default.isEmail(input.value)) {
+            if (validator_1.default.isEmail(input.value)) {
+                valid = true;
+            }
+            else {
                 _this.addMessage("This email is not valid", input);
                 valid = false;
             }
@@ -78,38 +93,36 @@ var FormValidator = /** @class */ (function () {
         while (!radioValid && i < radios.length) {
             if (radios[i].checked)
                 radioValid = true;
-            if (!radioValid)
-                this.addMessage("must check some option", radios[i]);
             i += 1;
         }
+        if (!radioValid)
+            alert("must check some option");
         return radioValid;
     };
     // eslint-disable-next-line class-methods-use-this
     FormValidator.prototype.verifyCheckBoxInputs = function () {
-        var _this = this;
         var checkboxs = document.querySelectorAll("input[type='checkbox']");
         var checked = false;
         checkboxs.forEach(function (checkbox) {
             checked = !!(checkbox.checked || checked === true);
-            if (checked === false) {
-                _this.addMessage("must check some option", checkbox);
-            }
         });
+        if (checked === false)
+            alert("must check some option");
         return checked;
     };
     FormValidator.prototype.verifyEmptyInputs = function (type) {
         var _this = this;
-        var empty = false;
+        var empty = true;
         var inputs = this.form.querySelectorAll("input[type='" + type + "']");
         inputs.forEach(function (input) {
             if (_this.verifyEmptyInput(input)) {
-                empty = true;
+                empty = false;
                 if (input.previousElementSibling !== null) {
                     _this.addMessage(input.previousElementSibling.innerHTML.replace(":", "") + " cannot be empty", input);
                 }
             }
             else {
-                empty = false;
+                empty = true;
             }
         });
         return empty;
@@ -142,7 +155,7 @@ var FormValidator = /** @class */ (function () {
     return FormValidator;
 }());
 var form = document.querySelector("form");
-var formValidator = new FormValidator(form, 5, 10, "name");
+var formValidator = new FormValidator(form, 5, 10, "name", "password", "surname");
 formValidator.init();
 
 

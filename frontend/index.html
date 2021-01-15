@@ -9,52 +9,80 @@
   <style>
     form {
       margin: 0 auto;
-      width: 400px;
+      max-width: 500px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
     }
-    form label {
-      width: 96%;
+    form .form-control {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      margin-bottom: 20px;
+      justify-content: center;
+      margin-bottom: 25px;
     }
-    form label input {
-      width: 100%;
-      padding: 5px;
-      font-size: 18px;
+    form .form-control input[type="text"],input[type="email"],input[type="password"],input[type="submit"] {
+      padding: 10px;
+      margin: 15px 0;
     }
-    form input[type="submit"] {
-      width: 100%;
-      padding: 5px;
-      font-size: 18px;
+    form .form-control-radio, .form-control-checkbox {
+      flex-direction: row;
+    }
+    form .form-control-radio div {
+      margin: 0 15px;
+    }
+    form .form-control-checkbox div {
+      margin: 15px 0;
+    }
+    .error-message {
+      color: rgb(211, 115, 115);
     }
   </style>
+
 </head>
 <body>
   <form>
-    <label for="name">Name:</label>
-    <input type="text" name="name" id="name">
-    <label for="surname">SurName:</label>
-    <input type="text" name="surname" id="surname">
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="email">
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password">
-    <input type="radio" id="male" name="gender" value="male">
-    <label for="male">Male</label><br>
-    <input type="radio" id="female" name="gender" value="female">
-    <label for="female">Female</label><br>
-    <input type="radio" id="other" name="gender" value="other">
-    <label for="other">Other</label>
-    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-    <label for="vehicle1"> I have a bike</label><br>
-    <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-    <label for="vehicle2"> I have a car</label><br>
+    <div class="form-control">
+      <label for="name">Name:</label>
+      <input type="text" name="name" id="name">
+    </div>
+    <div class="form-control">
+      <label for="surname">SurName:</label>
+      <input type="text" name="surname" id="surname">
+    </div>
+    <div class="form-control">
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email">
+    </div>
+    <div class="form-control">
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password">
+    </div>
+    <div class="form-control form-control-radio">
+      <div>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+      </div>
+      <div>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
+      </div>
+      <div>
+        <input type="radio" id="other" name="gender" value="other">
+        <label for="other">Other</label>
+      </div>
+    </div>
+    <div class="form-control form-control-checkbox">
+      <div>
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1"> I have a bike</label>
+      </div>
+      <div>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2"> I have a car</label>
+      </div>
+    </div>
     <input type="submit" value="send">
   </form>
 </body>
