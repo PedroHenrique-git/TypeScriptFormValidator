@@ -194,7 +194,7 @@ class FormValidator {
 const form = document.querySelector("form") as HTMLFormElement;
 const formValidator = new FormValidator(
   form,
-  5,
+  8,
   10,
   "name",
   "password",
